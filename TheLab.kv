@@ -1,4 +1,65 @@
-WidgetsExample:
+CanvasExample5:
+
+
+#:set s dp(150)
+<CanvasExample1>:
+    canvas:
+        Rectangle:
+            pos: self.center_x-s/2, self.center_y-s/2
+            size: s,s
+
+        Ellipse:
+            pos: 200,500
+            size: s, s/2
+
+        Line:
+            points: (0,0, self.width/4, 100, self.width/2, 0, self.width*3/4, 100, self.width,0)
+            width:2
+
+<CanvasExample2>:
+    canvas:
+        Line:
+            points: (self.width/2, 0, self.width/2, self.height)
+            width:2
+        Line:
+            points:(0, self.height/2, self.width, self.height/2)
+            width:2
+
+<CanvasExample3>:
+    canvas:
+        Color:
+            rgba: 0,1,0,1
+        Line:
+            circle: (200,200,100) # center_x, center_y, radius
+            width: 2
+        Line:
+            ellipse: (500,300,200,100) # center_x, center_y, radius x, radius y
+            width: 2
+        Color:
+            rgba: 1,0,0, 0.5
+        Line:
+            rectangle: (800,500,300,200) # x y w h
+            width: 2
+
+<CanvasExample4>:
+    Button:
+        pos: 100,400
+        text: "A"
+        on_press: root.on_button_a_click()
+
+
+<ImageExample@GridLayout>:
+    cols: 3
+    Image:
+        source: "images/cake.jpg"
+    Image:
+        source: "images/cake.jpg"
+        allow_stretch: True
+    Image:
+        source: "images/cake.jpg"
+        # allow_stretch True and ratio false work together
+        allow_stretch: True
+        keep_ratio: False
 
 <WidgetsExample>:
     cols:3
@@ -8,14 +69,55 @@ WidgetsExample:
         on_state: root.on_toggle_button_state(self)
         size_hint: None, 1
         width:"100dp"
+        
 
     Button:
         text: "Count"
         on_press: root.on_button_click()
+        disabled: not root.count_enabled
+
+
     Label:
         text: root.my_text
         font_name:"fonts/amatic.ttf"
         font_size:100
+
+    Switch:
+        id: my_switch
+        on_active: root.on_switch_active(self)
+        size_hint: None, 1
+        width:"100dp"
+        active: True
+
+    Slider:
+        id: my_slider
+        min:0
+        max:100
+        value: 50
+        orientation: "vertical"
+        #on_value: root.on_slider_value(self)
+        disabled: not my_switch.active
+
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: str(int(my_slider.value))
+        ProgressBar:
+            max:100
+            value: my_slider.value
+
+    TextInput:
+        id: my_text_input
+        size_hint: None, 1
+        width:"100dp"
+        text: root.text_input_str
+        multiline: False
+        on_text_validate: root.on_text_validate(self)
+
+    Label:
+        text: "Your name is "+root.text_input_str
+
+
 
 
 <PageLayoutExample@PageLayout>:
